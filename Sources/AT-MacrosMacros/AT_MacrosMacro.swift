@@ -1,33 +1,66 @@
-import SwiftCompilerPlugin
+//
+//  AT_MaacrosMacro.swift
+//  AT-Macros
+//
+//  Created by Asser on 22/07/2025.
+//
+
 import SwiftSyntax
 import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
 
-/// Implementation of the `stringify` macro, which takes an expression
-/// of any type and produces a tuple containing the value of that expression
-/// and the source code that produced the value. For example
-///
-///     #stringify(x + y)
-///
-///  will expand to
-///
-///     (x + y, "x + y")
-public struct StringifyMacro: ExpressionMacro {
+public struct Async: PeerMacro {
     public static func expansion(
-        of node: some FreestandingMacroExpansionSyntax,
+        of node: AttributeSyntax,
+        providingPeersOf declaration: some DeclSyntaxProtocol,
         in context: some MacroExpansionContext
-    ) -> ExprSyntax {
-        guard let argument = node.arguments.first?.expression else {
-            fatalError("compiler bug: the macro does not have any arguments")
+    ) throws -> [DeclSyntax] {
+        guard let funcDecl = declaration.as(FunctionDeclSyntax.self) else {
+            throw AsyncError.onlyFunction
         }
 
-        return "(\(argument), \(literal: argument.description))"
-    }
-}
+        let params = funcDecl.signature.parameterClause.parameters
+        guard let lastParam = params.last else {
+            throw AsyncError.noCompletionHandler
+        }
 
-@main
-struct AT_MacrosPlugin: CompilerPlugin {
-    let providingMacros: [Macro.Type] = [
-        StringifyMacro.self,
-    ]
+        // Use the new, safer helper methods
+        guard let closureType = parseFunctionType(from: lastParam.type) else {
+            throw AsyncError.invalidCompletionHandler
+        }
+
+        guard let analysis = analyzeCompletionHandler(closureType) else {
+            throw AsyncError.invalidCompletionHandler
+        }
+
+        let returnType = analysis.successType
+        let isThrowing = analysis.isThrowing
+
+        let funcName = funcDecl.name.text
+        let asyncParams = buildAsyncFunctionParameters(from: params.dropLast())
+        let callArgs = buildOriginalFunctionCallArguments(from: params.dropLast())
+
+        // Use the cleaner, more idiomatic code generation
+        let asyncDecl: DeclSyntax = if isThrowing {
+            """
+            func \(raw: funcName)(\(raw: asyncParams)) async throws -> \(returnType) {
+                try await withCheckedThrowingContinuation { continuation in
+                    \(raw: funcName)(\(raw: callArgs)) { result in
+                        continuation.resume(with: result)
+                    }
+                }
+            }
+            """
+        } else {
+            """
+            func \(raw: funcName)(\(raw: asyncParams)) async -> \(returnType) {
+                await withCheckedContinuation { continuation in
+                    \(raw: funcName)(\(raw: callArgs))(continuation.resume(returning:))
+                }
+            }
+            """
+        }
+
+        return [asyncDecl]
+    }
 }

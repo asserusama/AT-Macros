@@ -1,11 +1,10 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+//
+//  AT_Maacros.swift
+//  AT-Macros
+//
+//  Created by Asser on 22/07/2025.
+//
 
-/// A macro that produces both a value and a string containing the
-/// source code that generated the value. For example,
-///
-///     #stringify(x + y)
-///
-/// produces a tuple `(x + y, "x + y")`.
-@freestanding(expression)
-public macro stringify<T>(_ value: T) -> (T, String) = #externalMacro(module: "AT_MacrosMacros", type: "StringifyMacro")
+@attached(peer, names: overloaded)
+public macro Async() = #externalMacro(module: "AT_MacrosMacros", type: "Async")
+

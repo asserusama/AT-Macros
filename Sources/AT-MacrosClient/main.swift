@@ -1,8 +1,16 @@
+//
+//  main.swift
+//  AT-Macros
+//
+//  Created by Asser on 22/07/2025.
+//
+
 import AT_Macros
 
-let a = 17
-let b = 25
+struct AsyncFunctions {
+    @Async
+    func tsasaest(arg1: String, completion: @escaping (Result<String, Error>) -> Void) {
+        completion(.success("Hello, \(arg1)"))
+    }
+}
 
-let (result, code) = #stringify(a + b)
-
-print("The value \(result) was produced by the code \"\(code)\"")
