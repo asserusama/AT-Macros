@@ -43,9 +43,9 @@ public struct Async: PeerMacro {
         let callArgs = buildOriginalFunctionCallArguments(from: params.dropLast())
 
         let callSite: String = if callArgs.isEmpty {
-            "\(funcName)"
+            "self.\(funcName)"
         } else {
-            "\(funcName)(\(callArgs))"
+            "self.\(funcName)(\(callArgs))"
         }
 
         // --- **FINAL FIX IS HERE** ---

@@ -9,7 +9,7 @@ import AT_Macros
 
 struct AsyncFunctions {
     @Async
-    func tsasaest(arg1: String, completion: @escaping (Result<String, Error>) -> Void) {
+    func test(arg1: String, completion: @escaping (Result<String, Error>) -> Void) {
         completion(.success("Hello, \(arg1)"))
     }
 }
