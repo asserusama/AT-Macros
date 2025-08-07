@@ -8,7 +8,6 @@ public struct Async: PeerMacro {
         providingPeersOf declaration: some DeclSyntaxProtocol,
         in context: some MacroExpansionContext
     ) throws -> [DeclSyntax] {
-        // This logic remains the same
         guard let funcDecl = declaration.as(FunctionDeclSyntax.self) else {
             throw AsyncError.onlyFunction
         }
@@ -48,7 +47,6 @@ public struct Async: PeerMacro {
             "self.\(funcName)(\(callArgs))"
         }
 
-        // --- **FINAL FIX IS HERE** ---
         let asyncDecl: DeclSyntax = if isThrowing {
             """
             func \(raw: funcName)(\(raw: asyncParams)) async throws -> \(returnType) {
@@ -65,7 +63,6 @@ public struct Async: PeerMacro {
             }
             """
         } else {
-            // The non-throwing logic remains the same
             if returnType.trimmedDescription == "Void" {
                 """
                 func \(raw: funcName)(\(raw: asyncParams)) async {
@@ -88,7 +85,6 @@ public struct Async: PeerMacro {
                 """
             }
         }
-
         return [asyncDecl]
     }
 }

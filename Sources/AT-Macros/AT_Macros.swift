@@ -7,4 +7,3 @@
 
 @attached(peer, names: overloaded)
 public macro Async() = #externalMacro(module: "AT_MacrosMacros", type: "Async")
-

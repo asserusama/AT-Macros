@@ -13,4 +13,3 @@ struct AsyncFunctions {
         completion(.success("Hello, \(arg1)"))
     }
 }
-
