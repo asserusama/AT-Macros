@@ -1,6 +1,6 @@
 //
 //  APITypeAliasDictonary.swift
-//  AT-Macros
+//  ATMacros
 //
 //  Created by Asser on 22/07/2025.
 //

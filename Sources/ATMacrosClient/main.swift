@@ -1,11 +1,11 @@
 //
 //  main.swift
-//  AT-Macros
+//  ATMacros
 //
 //  Created by Asser on 22/07/2025.
 //
 
-import AT_Macros
+import ATMacros
 
 struct AsyncFunctions {
     @Async

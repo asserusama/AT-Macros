@@ -1,8 +1,8 @@
-# AT-Macros: `@Async`
+# ATMacros: `@Async`
 
 ## Introduction
 
-AT-Macros provides a powerful Swift peer macro, **`@Async`**, designed to automatically generate modern `async/await` versions of functions that use traditional completion handlers. This macro simplifies modernizing your codebase by reducing boilerplate code and making it easier to adopt Swift's modern concurrency features. 🧑‍💻
+ATMacros provides a powerful Swift peer macro, **`@Async`**, designed to automatically generate modern `async/await` versions of functions that use traditional completion handlers. This macro simplifies modernizing your codebase by reducing boilerplate code and making it easier to adopt Swift's modern concurrency features. 🧑‍💻
 
 Simply attach `@Async` to a function that takes a completion handler, and the macro will create a new `async` function with the same name and parameters, returning the value asynchronously.
 
@@ -63,13 +63,13 @@ func fetchUsername(for id: String) async -> String {
 
 ### Installation Process
 
-You can add AT-Macros to your project using the Swift Package Manager.
+You can add ATMacros to your project using the Swift Package Manager.
 
 **Using Xcode:**
 
 1.  Go to **File** \> **Add Packages...**
-2.  Paste the repository URL into the search bar: `https://github.com/your-username/AT-Macros.git`
-3.  Select the `AT-Macros` package and add it to your desired target.
+2.  Paste the repository URL into the search bar: `https://github.com/your-username/ATMacros.git`
+3.  Select the `ATMacros` package and add it to your desired target.
 
 ### API Reference
 
@@ -94,4 +94,4 @@ If these conditions aren't met, the compiler will produce an error guiding you o
 
 Contributions are welcome\! If you have a feature request, bug report, or want to improve the code, please feel free to contribute.
 
-Thank you for making AT-Macros better\! 🙌
+Thank you for making ATMacros better\! 🙌

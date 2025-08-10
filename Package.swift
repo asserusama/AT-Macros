@@ -5,16 +5,16 @@ import PackageDescription
 import CompilerPluginSupport
 
 let package = Package(
-    name: "AT-Macros",
+    name: "ATMacros",
     platforms: [.iOS(.v16), .macOS(.v14)],
     products: [
         .library(
-            name: "AT-Macros",
-            targets: ["AT-Macros"]
+            name: "ATMacros",
+            targets: ["ATMacros"]
         ),
         .executable(
-            name: "AT-MacrosClient",
-            targets: ["AT-MacrosClient"]
+            name: "ATMacrosClient",
+            targets: ["ATMacrosClient"]
         ),
     ],
     dependencies: [
@@ -22,7 +22,7 @@ let package = Package(
     ],
     targets: [
         .macro(
-            name: "AT-MacrosMacros",
+            name: "ATMacrosMacros",
             dependencies: [
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
@@ -31,7 +31,7 @@ let package = Package(
                 .enableExperimentalFeature("Macros")
             ]
         ),
-        .target(name: "AT-Macros", dependencies: ["AT-MacrosMacros"]),
-        .executableTarget(name: "AT-MacrosClient", dependencies: ["AT-Macros"]),
+        .target(name: "ATMacros", dependencies: ["ATMacrosMacros"]),
+        .executableTarget(name: "ATMacrosClient", dependencies: ["ATMacros"]),
     ]
 )
